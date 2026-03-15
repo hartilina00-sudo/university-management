@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard Enseignant</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body { background-color: #f8f9fa; }
+        .sidebar { height: 100vh; background: #212529; color: white; position: fixed; width: 250px; padding-top: 20px; }
+        .sidebar a { color: #adb5bd; text-decoration: none; display: block; padding: 12px 20px; transition: 0.3s; }
+        .sidebar a:hover { color: white; background: #343a40; }
+        .main-content { margin-left: 250px; padding: 30px; }
+        .card { margin-bottom: 20px; border: none; box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075); }
+        .section-header { border-left: 5px solid #0d6efd; padding-left: 15px; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+<div class="sidebar">
+    <h4 class="text-center mb-4">Univ Portal</h4>
+    <a href="#profile">👤 Mon Profil</a>
+    <a href="#schedule">📅 Emploi du Temps</a>
+    <a href="#students">📝 Suivi Étudiants</a>
+    <a th:href="@{/logout}" class="text-danger mt-5">🚪 Déconnexion</a>
+</div>
+
+<div class="main-content">
+    <div id="profile" class="card p-4">
+        <h3 class="section-header">Bienvenue, Prof. <span th:text="${teacher.lastName}"></span></h3>
+        <p><strong>Spécialité:</strong> <span th:text="${teacher.specialty}"></span></p>
+        <p><strong>Grade:</strong> <span th:text="${teacher.grade}"></span></p>
+    </div>
+
+    <div id="schedule" class="card p-4">
+        <h3 class="section-header">Emploi du Temps</h3>
+        <table class="table table-hover">
+            <thead class="table-dark">
+            <tr><th>Jour</th><th>Horaire</th><th>Salle</th><th>Module</th></tr>
+            </thead>
+            <tbody>
+            <tr th:each="s : ${sessions}">
+                <td th:text="${s.dayOfWeek}"></td>
+                <td th:text="${s.startTime + ' - ' + s.endTime}"></td>
+                <td th:text="${s.room}"></td>
+                <td th:text="${s.module.name}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="students" class="card p-4">
+        <h3 class="section-header">Suivi des Étudiants</h3>
+        <table class="table table-striped align-middle">
+            <thead>
+            <tr>
+                <th>Étudiant</th>
+                <th>Module</th>
+                <th>TP</th>
+                <th>Projet</th>
+                <th>Note Finale</th>
+                <th>Feedback</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="e : ${evaluations}">
+                <td th:text="${e.student.firstName + ' ' + e.student.lastName}"></td>
+                <td th:text="${e.module.name}"></td>
+                <td th:text="${e.noteTP}"></td>
+                <td th:text="${e.noteProjet}"></td>
+                <td><span class="badge bg-primary" th:text="${e.noteFinale}"></span></td>
+                <td th:text="${e.feedback}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

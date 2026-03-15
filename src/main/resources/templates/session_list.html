@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Emploi du Temps</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+<body class="container mt-5">
+<div class="table-container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Emploi du Temps</h2>
+        <div sec:authorize="hasRole('ADMIN')">
+            <a href="/session/new" class="btn btn-primary">Ajouter une Séance</a>
+        </div>
+    </div>
+    <a href="/" class="btn btn-outline-secondary mb-3">&larr; Retour</a>
+
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>Jour</th><th>Horaire</th><th>Module</th><th>Enseignant</th><th>Groupe</th><th>Salle</th>
+            <th sec:authorize="hasRole('ADMIN')">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="s : ${sessions}">
+            <td th:text="${s.dayOfWeek}"></td>
+            <td th:text="${s.startTime} + ' - ' + ${s.endTime}"></td>
+            <td th:text="${s.module.name}"></td>
+            <td th:text="${s.module.responsibleTeacher.lastName}"></td>
+            <td th:text="${s.groupName}"></td>
+            <td th:text="${s.room}"></td>
+            <td sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/session/edit/{id}(id=${s.id})}" class="btn btn-warning btn-sm me-2">Modifier</a>
+                <a th:href="@{/session/delete/{id}(id=${s.id})}" class="btn btn-danger btn-sm">X</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

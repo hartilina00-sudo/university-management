@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Connexion | University Manager</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+<body class="login-body">
+
+<div class="card login-card shadow-lg">
+    <div class="text-center mb-5">
+        <h1 class="h2 fw-bold text-primary">University Manager</h1>
+        <p class="text-muted">Accédez à votre espace sécurisé</p>
+    </div>
+
+    <div th:if="${param.error}" class="alert alert-danger text-center rounded-pill">
+        ⚠️ Identifiants incorrects
+    </div>
+
+    <div th:if="${param.logout}" class="alert alert-success text-center rounded-pill">
+        👋 Vous êtes déconnecté
+    </div>
+
+    <form th:action="@{/login}" method="post">
+        <div class="form-floating mb-3">
+            <input type="text" name="username" class="form-control rounded-4" id="floatingInput" placeholder="name@example.com" required>
+            <label for="floatingInput">Nom d'utilisateur</label>
+        </div>
+        <div class="form-floating mb-4">
+            <input type="password" name="password" class="form-control rounded-4" id="floatingPassword" placeholder="Password" required>
+            <label for="floatingPassword">Mot de passe</label>
+        </div>
+
+        <button class="w-100 btn btn-lg btn-primary mb-3" type="submit">Se Connecter</button>
+        <p class="text-center text-muted small">© 2026 University System</p>
+    </form>
+</div>
+
+</body>
+</html>
